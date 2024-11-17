@@ -1,0 +1,159 @@
+package udla.vsuarez.herencia;
+
+import java.util.ArrayList;
+import java.util.List;
+
+// Clase base Persona
+public class Persona {
+    private String nombre;
+    private String apellido;
+    private String correo;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+}
+
+// Clase Usuario (hereda de Persona)
+public class Usuario extends Persona {
+    private String telefono;
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+}
+
+// Clase ClaseActividad
+public class ClaseActividad {
+    private String nombre;
+    private String descripcion;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+}
+
+// Clase Reserva
+public class Reserva {
+    private Usuario usuario;
+    private ClaseActividad clase;
+    private String fechaReserva;
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public ClaseActividad getClase() {
+        return clase;
+    }
+
+    public void setClase(ClaseActividad clase) {
+        this.clase = clase;
+    }
+
+    public String getFechaReserva() {
+        return fechaReserva;
+    }
+
+    public void setFechaReserva(String fechaReserva) {
+        this.fechaReserva = fechaReserva;
+    }
+}
+
+// Clase SistemaReservasCentralizado
+public class SistemaReservasCentralizado {
+    private List<Usuario> usuarios = new ArrayList<>();
+    private List<ClaseActividad> clases = new ArrayList<>();
+    private List<Reserva> reservas = new ArrayList<>();
+
+    public void agregarUsuario(Usuario usuario) {
+        usuarios.add(usuario);
+        System.out.println("Usuario agregado: " + usuario.getNombre());
+    }
+
+    public void agregarClase(ClaseActividad clase) {
+        clases.add(clase);
+        System.out.println("Clase agregada: " + clase.getNombre());
+    }
+
+    public void realizarReserva(Usuario usuario, ClaseActividad clase, String fechaReserva) {
+        Reserva reserva = new Reserva();
+        reserva.setUsuario(usuario);
+        reserva.setClase(clase);
+        reserva.setFechaReserva(fechaReserva);
+        reservas.add(reserva);
+        System.out.println("Reserva realizada para " + usuario.getNombre() + " en la clase " + clase.getNombre());
+    }
+
+    public void cancelarReserva(Usuario usuario, ClaseActividad clase) {
+        reservas.removeIf(reserva -> reserva.getUsuario().equals(usuario) && reserva.getClase().equals(clase));
+        System.out.println("Reserva cancelada para " + usuario.getNombre() + " en la clase " + clase.getNombre());
+    }
+
+    public void listarReservas() {
+        for (Reserva reserva : reservas) {
+            System.out.println("Reserva: " + reserva.getUsuario().getNombre() + " - " + reserva.getClase().getNombre());
+        }
+    }
+}
+
+// Clase principal para pruebas
+public class PruebaCentralizado {
+    public static void main(String[] args) {
+        SistemaReservasCentralizado sistema = new SistemaReservasCentralizado();
+
+        Usuario usuario1 = new Usuario();
+        usuario1.setNombre("Ana");
+        usuario1.setApellido("López");
+        usuario1.setCorreo("ana@example.com");
+
+        ClaseActividad clase1 = new ClaseActividad();
+        clase1.setNombre("Pilates");
+        clase1.setDescripcion("Clase avanzada");
+
+        sistema.agregarUsuario(usuario1);
+        sistema.agregarClase(clase1);
+        sistema.realizarReserva(usuario1, clase1, "2024-11-20");
+        sistema.listarReservas();
+    }
+}

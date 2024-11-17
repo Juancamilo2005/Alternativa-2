@@ -1,0 +1,56 @@
+package udla.vsuarez.herencia;
+
+import java.util.ArrayList;
+import java.util.List;
+
+// Clase base Persona (ya definida)
+
+// Clase Usuario (hereda de Persona, ya definida)
+
+// Clase ClaseActividad (ya definida)
+
+// Clase Reserva (ya definida)
+
+// Clase SistemaReservasDistribuido
+public class SistemaReservasDistribuido {
+    private List<Reserva> reservas = new ArrayList<>();
+
+    public void realizarReserva(Usuario usuario, ClaseActividad clase, String fechaReserva) {
+        Reserva reserva = new Reserva();
+        reserva.setUsuario(usuario);
+        reserva.setClase(clase);
+        reserva.setFechaReserva(fechaReserva);
+        reservas.add(reserva);
+        System.out.println("Reserva realizada para " + usuario.getNombre() + " en la clase " + clase.getNombre());
+    }
+
+    public void cancelarReserva(Usuario usuario, ClaseActividad clase) {
+        reservas.removeIf(reserva -> reserva.getUsuario().equals(usuario) && reserva.getClase().equals(clase));
+        System.out.println("Reserva cancelada para " + usuario.getNombre() + " en la clase " + clase.getNombre());
+    }
+
+    public void listarReservas() {
+        for (Reserva reserva : reservas) {
+            System.out.println("Reserva: " + reserva.getUsuario().getNombre() + " - " + reserva.getClase().getNombre());
+        }
+    }
+}
+
+// Clase principal para pruebas
+public class PruebaDistribuido {
+    public static void main(String[] args) {
+        SistemaReservasDistribuido sistema = new SistemaReservasDistribuido();
+
+        Usuario usuario1 = new Usuario();
+        usuario1.setNombre("Juan");
+        usuario1.setApellido("Pérez");
+        usuario1.setCorreo("juan@example.com");
+
+        ClaseActividad clase1 = new ClaseActividad();
+        clase1.setNombre("Yoga");
+        clase1.setDescripcion("Clase para principiantes");
+
+        sistema.realizarReserva(usuario1, clase1, "2024-11-17");
+        sistema.listarReservas();
+    }
+}
